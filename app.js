@@ -12,4 +12,40 @@
  * 5. deletes the data created  
  */
 
-const expre
+//  {
+    // name : "Gerald aka JAyyphire",
+    // email : "geraldlouisugwunna@gmail.com",
+    // country: "Nigeria"
+// }
+
+const express = require('express');
+const connectDB = require('./db');
+require('dotenv').config();
+const { PORT } = process.env
+const fs = require('fs')
+const path = require('path')
+
+connectDB();
+
+const app = express()
+
+app.use(express.json({extended:false}))
+
+app.get('/', (req, res)=>{
+    return res.json({
+        message : 'Sucessful, Here are your details',
+        data : fs.readFile(path.join(__dirname, 'data.json'), 'utf-8', (err, json)=>{
+            if (err) throw err;
+
+            return json
+        })
+    })
+})
+
+const port = process.env.PORT || PORT
+
+app.listen(port, ()=>{
+    console.log('server is running')
+})
+
+app.get('/data')
